@@ -29,6 +29,10 @@ public class MemoryEntrySequence extends AbstractEntrySequence {
         super(logIndexOffset);
     }
 
+    @Override
+    public byte[] getLogByKey(String key) {
+        return new byte[0];
+    }
     //按照索引获取指定条目
     @Override
     protected Entry doGetEntry(int index) {
@@ -45,6 +49,8 @@ public class MemoryEntrySequence extends AbstractEntrySequence {
     @Override
     protected void doAppend(Entry entry) {
         entries.add(entry);
+//        entry.getCommandBytes();
+//        entry.getCommandBytes();
     }
 
     //提交索引
@@ -74,4 +80,6 @@ public class MemoryEntrySequence extends AbstractEntrySequence {
     @Override
     public void close() {
     }
+
+
 }

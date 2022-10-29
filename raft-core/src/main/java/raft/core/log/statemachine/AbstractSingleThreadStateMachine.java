@@ -28,6 +28,7 @@ public abstract class AbstractSingleThreadStateMachine implements StateMachine {
     //应用日志
     @Override
     public void applyLog(StateMachineContext context, int index,  byte[] commandBytes, int firstLogIndex) {
+        System.out.println("已注入");
         taskExecutor.submit(() -> doApplyLog(context, index, commandBytes, firstLogIndex));
 //        doApplyLog(context, index, commandBytes, firstLogIndex);
     }

@@ -1,0 +1,6 @@
+raft\log\EntriesFileTest.class
+raft\log\FileEntrySequenceTest.class
+raft\EncoderTest.class
+raft\log\EntryIndexFileTest.class
+raft\node\NodeImplTest.class
+raft\log\MemoryEntrySequenceTest.class

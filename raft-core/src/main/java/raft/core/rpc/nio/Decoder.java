@@ -27,7 +27,7 @@ public class Decoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         int availableBytes = in.readableBytes();
-        // 先预读8字节
+        // 先预读8字z节
         if (availableBytes < 8) {return;}
         // 记录当前起始位置
         in.markReaderIndex();

@@ -28,6 +28,7 @@ public class ServerRouter {
     //发送消息
     public Object send(Object payload){
 
+        //遍历服务路由表内所有节点(在某个节点返回未响应时，发送到其他节点)
         for (NodeId nodeId : getCandidateNodeIds()) {
             try {
                 Object result = doSend(nodeId, payload);
@@ -76,7 +77,21 @@ public class ServerRouter {
             throw new IllegalStateException("no such channel to server " + id);
         }
 //        logger.debug("send request to server {}", id);
-        System.out.println("log: 该请求已发送给节点"+id);
+        System.out.println("log: 该请求已发送给节点 :"+id);
+
+        //        if (send ==null) {
+//            throw new IllegalStateException("send to node :" + id+",receive is null ");
+//        }
+//        System.out.println("log: 当前请求类型为 :"+type);
+//        if (type.equals("set")){
+//            for (NodeId nodeId : availableServers.keySet()) {
+//                if (nodeId==leaderId){
+//                    continue;
+//                }
+//                Channel otherChannel = availableServers.get(nodeId);
+//                otherChannel.send(payload);
+//            }
+//        }
         return channel.send(payload);
     }
 

@@ -8,6 +8,7 @@ import raft.core.log.entry.Entry;
 import raft.core.log.entry.EntryMeta;
 import raft.core.log.entry.GeneralEntry;
 import raft.core.log.entry.NoOpEntry;
+import raft.core.log.execption.LogException;
 import raft.core.log.sequence.EntrySequence;
 import raft.core.log.statemachine.EmptyStateMachine;
 import raft.core.log.statemachine.StateMachine;
@@ -247,6 +248,14 @@ abstract class AbstractLog implements Log {
 
     public void setStateMachine(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
+    }
+
+    @Override
+    public byte[] getLogByKey(String key) {
+        if (key==null){
+            throw new LogException("key is null");
+        }
+        return entrySequence.getLogByKey(key);
     }
 
     //操作leader传来的日志条目数组

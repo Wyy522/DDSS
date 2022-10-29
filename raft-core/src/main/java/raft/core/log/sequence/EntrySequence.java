@@ -60,4 +60,5 @@ public interface EntrySequence {
     //关闭日志序列
     void close();
 
+    byte[] getLogByKey(String key);
 }

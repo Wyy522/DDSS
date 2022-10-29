@@ -47,8 +47,10 @@ public interface Log {
     //推进一条的日志索引
     void advanceCommitIndex(int newCommitIndex, int currentTerm);
 
-
     void setStateMachine(StateMachine stateMachine);
+
+    byte[] getLogByKey(String key);
+
     //关闭
     void close();
 

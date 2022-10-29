@@ -69,6 +69,11 @@ public class FileEntrySequence extends AbstractEntrySequence {
     }
 
     @Override
+    public byte[] getLogByKey(String key) {
+        return new byte[0];
+    }
+
+    @Override
     protected List<Entry> doSubList(int fromIndex, int toIndex) {
 
         //结果分为来自文件的与来自缓冲的两部分

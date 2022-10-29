@@ -22,17 +22,16 @@ public class Service {
     //请求ID和CommandRequest的映射类
     private final ConcurrentHashMap<String, CommandRequest<?>> pendingCommands = new ConcurrentHashMap<>();
 
-    private Map<String, byte[]> map = new HashMap<>();
+    private  Map<String, byte[]> map = new HashMap<>();
 
     public Service(Node node) {
         this.node = node;
-
+        this.node.registerStateMachine(new StateMachineImpl());
     }
 
     public void set(CommandRequest<SetCommand> commandRequest){
         // 如果当前节点不是leader节点那么就返回redirect
 
-        this.node.registerStateMachine(new StateMachineImpl());
         Redirect redirect = checkLeadership();
         if (redirect != null){
             commandRequest.reply(redirect);
@@ -46,6 +45,8 @@ public class Service {
         commandRequest.addCloseListener(()->pendingCommands.remove(command.getRequestId()));
         // 追加日志
         this.node.appendLog(command.toBytes());
+
+        //返回客户端
         commandRequest.reply(new SetCommand(command.getKey(), command.getValue()));
 
     }
@@ -66,10 +67,13 @@ public class Service {
 
         String key = commandRequest.getCommand().getKey();
         logger.debug("get {}", key);
-        byte[] value = this.map.get(key);
-        System.out.println("get value : "+Arrays.toString(value));
-        // TODO view from node state machine
-        commandRequest.reply(new GetCommandResponse(value));
+        //TODO how to find key in memory log?
+        byte[] bytes = map.get(key);
+        System.out.println("get value : "+Arrays.toString(bytes));
+        commandRequest.reply(new GetCommandResponse(bytes));
+//        byte[] value = this.node.getLogByKey(key);
+//        System.out.println("get value : "+Arrays.toString(value));
+//        commandRequest.reply(new GetCommandResponse(value));
     }
 
     //检查是否是Leader

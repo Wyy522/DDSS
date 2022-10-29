@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import raft.core.log.entry.EntryMeta;
+import raft.core.log.execption.LogException;
 import raft.core.log.execption.NotLeaderException;
 import raft.core.log.statemachine.StateMachine;
 import raft.core.node.role.*;
@@ -66,6 +67,13 @@ public class NodeImpl implements Node {
             logger.warn("failure", t);
         }
     };
+
+    public byte[] getLogByKey(String key){
+        if (key==null){
+            throw new LogException("key is null");
+        }
+        return context.log().getLogByKey(key);
+    }
 
     //Node启动
     @Override
@@ -146,7 +154,6 @@ public class NodeImpl implements Node {
     public RoleNameAndLeaderId getRoleNameAndLeaderId() {
         return role.getNameAndLeaderId(context.selfId());
     }
-
 
     //统一角色变化,以及在角色变化时同步到NodeStore中
     private void changeToRole(AbstractNodeRole newRole) {
@@ -535,7 +542,10 @@ public class NodeImpl implements Node {
             }
         }
     }
+
     private void resetReplicatingStates() {
         context.group().resetReplicatingStates(context.log().getNextIndex());
     }
+
+
 }

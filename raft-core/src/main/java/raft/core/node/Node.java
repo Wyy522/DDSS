@@ -21,5 +21,7 @@ public interface Node {
     //追加日志
     void appendLog(byte[] commandBytes);
 
+    byte[] getLogByKey(String key);
+
     RoleNameAndLeaderId getRoleNameAndLeaderId() ;
 }
